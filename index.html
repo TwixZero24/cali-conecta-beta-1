@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso - Cali Conecta</title>
+    <link rel="stylesheet" href="css/login.css">
+  
+</head>
+<body>
+    <nav>
+        <a href="home.html">Inicio - Cali Conecta</a>
+    </nav>
+
+    <main>
+        <div class="auth-container">
+            <h2>Iniciar Sesión / Registro</h2>
+            <form id="form-auth">
+                <label for="email">Correo electrónico:</label>
+                <input type="email" id="email" required>
+
+                <label for="password">Contraseña:</label>
+                <input type="password" id="password" required>
+
+                <button type="submit" id="btn-login" class="secondary">Iniciar Sesión</button>
+                <button type="button" id="btn-registro">Registrarse</button>
+            </form>
+            <p id="mensaje-estado" style="font-weight: bold; text-align: center; margin-top: 15px;"></p>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase.js"></script>
+
+    <script>
+        const mensaje = document.getElementById('mensaje-estado');
+
+        document.getElementById('btn-registro').addEventListener('click', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            if (!email || !password) {
+                mensaje.textContent = 'Por favor completa todos los campos.';
+                mensaje.style.color = 'orange';
+                return;
+            }
+
+            mensaje.textContent = 'Registrando cuenta...';
+            mensaje.style.color = '#007BFF';
+
+            const { data, error } = await supabaseClient.auth.signUp({
+                email: email,
+                password: password,
+            });
+
+            if (error) {
+                mensaje.textContent = 'Error: ' + error.message;
+                mensaje.style.color = 'red';
+                return;
+            }
+
+            mensaje.textContent = '¡Registro exitoso! Ya puedes iniciar sesión.';
+            mensaje.style.color = 'green';
+        });
+
+        document.getElementById('btn-login').addEventListener('click', async (e) => {
+            e.preventDefault();
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            if (!email || !password) {
+                mensaje.textContent = 'Por favor completa todos los campos.';
+                mensaje.style.color = 'orange';
+                return;
+            }
+
+            mensaje.textContent = 'Iniciando sesión...';
+            mensaje.style.color = '#007BFF';
+
+            const { data, error } = await supabaseClient.auth.signInWithPassword({
+                email: email,
+                password: password,
+            });
+
+            if (error) {
+                mensaje.textContent = 'Error: ' + error.message;
+                mensaje.style.color = 'red';
+                return;
+            }
+
+            mensaje.textContent = '¡Inicio de sesión exitoso! Redirigiendo...';
+            mensaje.style.color = 'green';
+            
+            setTimeout(() => {
+                window.location.href = 'home.html';
+            }, 1500);
+        });
+    </script>
+</body>
+</html>

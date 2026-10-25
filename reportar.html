@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>reportar</title>
+    <link rel="stylesheet" href="style_reportar.css">
+</head>
+
+<body>
+    <nav>
+        <a href="home.html#inicio">inicio</a>
+        <a href="reportar.html">reportar</a>
+        <a href="consulta.html">consulta</a>
+        <a href="participa.html">participa</a>
+    </nav>
+    <header>
+        <h1>Reportar problema</h1>
+        <p>Ayuda a identificar problemas en tu comunidad proporcionando los datos del lugar y una descripción clara.</p>
+    </header>
+    <main>
+        <section class="formulario-seccion">
+            <h2>Formulario de reporte</h2>
+            
+            <form id="form-reporte">
+                <div class="campo">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" id="nombre" name="nombre" required>
+                </div>
+                <div class="campo">
+                    <label for="correo">Correo electrónico</label>
+                    <input type="email" id="correo" name="correo" required>
+                </div>
+                <div class="campo">
+                    <label for="ubicacion">Ubicación del problema</label>
+                    <input type="text" id="ubicacion" name="ubicacion" required>
+                </div>
+                <div class="campo">
+                    <label for="problema">Descripción del problema</label>
+                    <textarea id="problema" name="problema" rows="5" required></textarea>
+                </div>
+                <button type="submit">Enviar reporte</button>
+            </form>
+            
+           
+            <p id="mensaje-alerta" style="margin-top: 15px; font-weight: bold;"></p>
+        </section>
+    </main>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    
+    <script src="supabase.js"></script>
+
+    
+    <script>
+        const formulario = document.getElementById('form-reporte');
+        const mensajeAlerta = document.getElementById('mensaje-alerta');
+
+        formulario.addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const nombreVal = document.getElementById('nombre').value.trim();
+            const correoVal = document.getElementById('correo').value.trim();
+            const ubicacionVal = document.getElementById('ubicacion').value.trim();
+            const problemaVal = document.getElementById('problema').value.trim();
+
+            if (!nombreVal || !correoVal || !ubicacionVal || !problemaVal) {
+                mensajeAlerta.textContent = 'Completa todos los campos antes de enviar el reporte.';
+                mensajeAlerta.style.color = '#e74c3c';
+                return;
+            }
+
+            mensajeAlerta.textContent = 'Enviando reporte...';
+            mensajeAlerta.style.color = '#3498db';
+
+            const nuevoReporte = {
+                nombre: nombreVal,
+                correo: correoVal,
+                ubicacion: ubicacionVal,
+                problema: problemaVal
+            };
+
+            const { data, error } = await supabaseClient
+                .from('reportes')
+                .insert([nuevoReporte]);
+
+            if (error) {
+                console.error('Error detallado:', error);
+                mensajeAlerta.innerHTML = `<strong>Error de Supabase:</strong> ${error.message}`;
+                mensajeAlerta.style.color = '#e74c3c';
+                return;
+            }
+
+            mensajeAlerta.textContent = '¡Reporte enviado con éxito!';
+            mensajeAlerta.style.color = '#2ecc71';
+
+            formulario.reset();
+
+            setTimeout(() => {
+                window.location.href = 'consulta.html';
+            }, 2000);
+        });
+
+        async function verificarSesion() {
+            if (typeof supabaseClient === 'undefined' || !supabaseClient.auth) {
+                console.warn('Supabase no está disponible.');
+                return;
+            }
+
+            const { data: { session } } = await supabaseClient.auth.getSession();
+
+            if (!session) {
+                alert('Debes iniciar sesión para acceder a esta sección.');
+                window.location.href = 'index.html';
+            }
+        }
+
+        verificarSesion();
+    </script>
+</body>
+</html>

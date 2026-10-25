@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Participa - Mapa</title>
+    
+    
+    
+    <link rel="stylesheet" href="style.participa.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        nav a {
+            text-decoration: none;
+        }
+        #map {
+            width: 100%;
+            height: 450px;
+            border-radius: 8px;
+            border: 2px solid #ccc;
+        }
+        .cuadro-mapa {
+            width: 85%;
+            max-width: 900px;
+            margin: 20px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .botones-container {
+            text-align: center;
+            margin-top: 15px;
+        }
+        .btn-pendiente {
+            padding: 10px 15px;
+            background-color: #ff9800;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .btn-resuelto {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <a href="home.html#inicio">Inicio</a>
+        <a href="reportar.html">Reportar</a>
+        <a href="consulta.html">Consulta</a>
+        <a href="participa.html">Participa</a>
+    </nav>
+
+    <h1>Participa</h1>
+   
+<section class="mapa-seccion">
+    <h2>Reportes de la comunidad</h2>
+
+    <p id="estado-mapa">
+        En esta seccion podras encontrar de mejor manera los reportes de la comunidad.
+    </p>
+
+   
+    <div class="filtros-reportes">
+        <label for="buscar-reporte">Buscar un reporte</label>
+        <input
+            type="search"
+            id="buscar-reporte"
+            placeholder="Ej. hueco, semáforo, vía..."
+        >
+
+        <label for="filtrar-estado">Filtrar por estado</label>
+        <select id="filtrar-estado">
+            <option value="todos">Todos los reportes</option>
+            <option value="pendiente">Pendientes</option>
+            <option value="en_revision">En revisión</option>
+            <option value="resuelto">Resueltos</option>
+        </select>
+    </div>
+
+  
+    <div id="lista-reportes">
+        <p id="cargando-reportes">Cargando reportes...</p>
+
+        
+           
+                <span class="reporte-categoria">
+                    Infraestructura vial
+                </span>
+
+                <span class="estado-reporte pendiente">
+                    Pendiente
+                </span>
+            </div>
+
+            <h3>Ejemplo: daño en la vía</h3>
+
+            <p>
+                Ejemplo ilustrativo de un daño que necesita
+                revisión en una calle de Cali.
+            </p>
+
+            <p class="reporte-fecha">
+                Publicado: fecha de ejemplo
+            </p>
+
+            <details class="historial-reporte">
+                <summary>Ver historial del reporte</summary>
+
+                <div class="historial-evento">
+                    <strong>Reporte publicado</strong>
+                    <p>
+                        Un ciudadano informó sobre el problema.
+                    </p>
+                </div>
+
+                <p class="reporte-nota">
+                    Este es un reporte de demostración.
+                    Todavía no corresponde a un caso real.
+                </p>
+            </details>
+        </article>
+
+    </div>
+</section>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase.js"></script>
+
+    <script>
+      
+   
+
+const buscador = document.getElementById("buscar-reporte");
+const filtroEstado = document.getElementById("filtrar-estado");
+const listaReportes = document.getElementById("lista-reportes");
+
+function normalizarEstado(estado) {
+    const valor = (estado || "Pendiente")
+        .toLowerCase()
+        .trim()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/\s+/g, "_");
+
+    if (valor === "en_revision") return "en_revision";
+    if (valor === "resuelto") return "resuelto";
+    return "pendiente";
+}
+
+function crearElemento(etiqueta, clase, texto) {
+    const elemento = document.createElement(etiqueta);
+
+    if (clase) elemento.className = clase;
+    elemento.textContent = texto || "";
+
+    return elemento;
+}
+
+function mostrarReportes(reportes) {
+    listaReportes.replaceChildren();
+
+    if (reportes.length === 0) {
+        listaReportes.appendChild(
+            crearElemento("p", "", "No hay reportes que mostrar.")
+        );
+        return;
+    }
+
+    reportes.forEach(function(reporte) {
+        const tarjeta = crearElemento("article", "reporte-card");
+        const cabecera = crearElemento("div", "reporte-cabecera");
+
+        cabecera.appendChild(
+            crearElemento("span", "reporte-categoria", "Reporte comunitario")
+        );
+
+        const estado = normalizarEstado(reporte.estado);
+
+        const nombresEstado = {
+            pendiente: "Pendiente",
+            en_revision: "En revisión",
+            resuelto: "Resuelto"
+        };
+
+        cabecera.appendChild(
+            crearElemento(
+                "span",
+                "estado-reporte " + estado,
+                nombresEstado[estado]
+            )
+        );
+
+        tarjeta.appendChild(cabecera);
+        tarjeta.appendChild(crearElemento("h3", "", reporte.problema));
+        tarjeta.appendChild(
+            crearElemento("p", "", "Ubicación: " + (reporte.ubicacion || "No especificada"))
+        );
+
+        if (reporte.nombre) {
+            tarjeta.appendChild(
+                crearElemento("p", "", "Reportado por: " + reporte.nombre)
+            );
+        }
+
+        if (reporte.fecha_reporte) {
+            const fecha = new Date(reporte.fecha_reporte);
+            const fechaTexto = Number.isNaN(fecha.getTime())
+                ? reporte.fecha_reporte
+                : fecha.toLocaleString("es-CO");
+
+            tarjeta.appendChild(
+                crearElemento("p", "reporte-fecha", "Publicado: " + fechaTexto)
+            );
+        }
+
+        // Sección de comentarios
+        const seccionComentarios = document.createElement("details");
+        seccionComentarios.className = "historial-reporte";
+
+        seccionComentarios.appendChild(
+            crearElemento("summary", "", "Ver comentarios y actualizaciones")
+        );
+
+        const contenidoComentarios = crearElemento(
+            "div",
+            "comentarios-contenido"
+        );
+
+        const listaComentarios = crearElemento(
+            "div",
+            "lista-comentarios",
+            "Cargando comentarios..."
+        );
+
+        contenidoComentarios.appendChild(listaComentarios);
+
+        const formulario = crearElemento("div", "formulario-comentario");
+
+        const campoComentario = document.createElement("textarea");
+        campoComentario.className = "campo-comentario";
+        campoComentario.placeholder = "Comparte información útil sobre este reporte...";
+        campoComentario.maxLength = 2000;
+        campoComentario.rows = 3;
+        campoComentario.setAttribute("aria-label", "Escribe un comentario");
+
+        const botonComentario = crearElemento(
+            "button",
+            "boton-comentario",
+            "Publicar comentario"
+        );
+        botonComentario.type = "button";
+
+        const mensaje = crearElemento("p", "mensaje-comentario");
+
+        formulario.appendChild(campoComentario);
+        formulario.appendChild(botonComentario);
+        formulario.appendChild(mensaje);
+
+        contenidoComentarios.appendChild(formulario);
+        seccionComentarios.appendChild(contenidoComentarios);
+        tarjeta.appendChild(seccionComentarios);
+        listaReportes.appendChild(tarjeta);
+
+        // Cargar los comentarios de este reporte
+        cargarComentarios(reporte.id_reporte, listaComentarios);
+
+        // Publicar un comentario nuevo
+        botonComentario.addEventListener("click", async function() {
+            const comentario = campoComentario.value.trim();
+
+            if (!comentario) {
+                mensaje.textContent = "Escribe un comentario antes de publicarlo.";
+                return;
+            }
+
+            botonComentario.disabled = true;
+            mensaje.textContent = "Publicando comentario...";
+
+            try {
+                const { data: usuarioData, error: errorUsuario } =
+                    await supabaseClient.auth.getUser();
+
+                if (errorUsuario || !usuarioData.user) {
+                    mensaje.textContent =
+                        "Tu sesión no está disponible. Inicia sesión nuevamente.";
+                    return;
+                }
+
+                const { error } = await supabaseClient
+                    .from("actualizaciones_reportes")
+                    .insert({
+                        id_reporte: reporte.id_reporte,
+                        usuario_uid: usuarioData.user.id,
+                        comentario: comentario
+                    });
+
+                if (error) {
+                    console.error("Error al publicar comentario:", error);
+                    mensaje.textContent =
+                        "No se pudo publicar. Revisa los permisos de Supabase.";
+                    return;
+                }
+
+                campoComentario.value = "";
+                mensaje.textContent = "¡Comentario publicado!";
+
+                await cargarComentarios(reporte.id_reporte, listaComentarios);
+            } catch (error) {
+                console.error("Error inesperado:", error);
+                mensaje.textContent = "Ocurrió un error al publicar el comentario.";
+            } finally {
+                botonComentario.disabled = false;
+            }
+        });
+    });
+
+    filtrarReportes();
+}
+
+async function cargarComentarios(idReporte, contenedor) {
+    contenedor.replaceChildren(
+        crearElemento("p", "", "Cargando comentarios...")
+    );
+
+    const { data, error } = await supabaseClient
+        .from("actualizaciones_reportes")
+        .select("id_actualizacion, comentario, fecha_actualizacion")
+        .eq("id_reporte", idReporte)
+        .order("fecha_actualizacion", { ascending: true });
+
+    if (error) {
+        console.error("Error al cargar comentarios:", error);
+        contenedor.replaceChildren(
+            crearElemento(
+                "p",
+                "",
+                "No se pudieron cargar los comentarios."
+            )
+        );
+        return;
+    }
+
+    contenedor.replaceChildren();
+
+    if (!data || data.length === 0) {
+        contenedor.appendChild(
+            crearElemento("p", "", "Todavía no hay comentarios. ¡Sé el primero en participar!")
+        );
+        return;
+    }
+
+    data.forEach(function(comentario) {
+        const tarjetaComentario = crearElemento("article", "comentario-card");
+
+        tarjetaComentario.appendChild(
+            crearElemento("strong", "autor-comentario", "Miembro de la comunidad")
+        );
+
+        if (comentario.fecha_actualizacion) {
+            const fecha = new Date(comentario.fecha_actualizacion);
+            const fechaTexto = Number.isNaN(fecha.getTime())
+                ? comentario.fecha_actualizacion
+                : fecha.toLocaleString("es-CO");
+
+            tarjetaComentario.appendChild(
+                crearElemento("p", "fecha-comentario", fechaTexto)
+            );
+        }
+
+        tarjetaComentario.appendChild(
+            crearElemento("p", "texto-comentario", comentario.comentario)
+        );
+
+        contenedor.appendChild(tarjetaComentario);
+    });
+}
+
+function filtrarReportes() {
+    const texto = buscador.value.toLowerCase().trim();
+    const estadoSeleccionado = filtroEstado.value;
+
+    listaReportes.querySelectorAll(".reporte-card").forEach(function(tarjeta) {
+        const coincideTexto = tarjeta.textContent
+            .toLowerCase()
+            .includes(texto);
+
+        const etiqueta = tarjeta.querySelector(".estado-reporte");
+
+        const estado = etiqueta
+            ? [...etiqueta.classList].find(clase =>
+                ["pendiente", "en_revision", "resuelto"].includes(clase)
+            )
+            : "";
+
+        const coincideEstado =
+            estadoSeleccionado === "todos" ||
+            estado === estadoSeleccionado;
+
+        tarjeta.style.display =
+            coincideTexto && coincideEstado ? "" : "none";
+    });
+}
+
+buscador.addEventListener("input", filtrarReportes);
+filtroEstado.addEventListener("change", filtrarReportes);
+
+async function cargarReportes() {
+    listaReportes.replaceChildren(
+        crearElemento("p", "", "Cargando reportes...")
+    );
+
+    const { data, error } = await supabaseClient
+        .from("reportes")
+        .select("id_reporte, nombre, ubicacion, problema, estado, fecha_reporte")
+        .order("fecha_reporte", { ascending: false });
+
+    if (error) {
+        console.error("Error al cargar reportes:", error);
+
+        listaReportes.replaceChildren(
+            crearElemento(
+                "p",
+                "",
+                "No se pudieron cargar los reportes. Revisa la conexión y los permisos de Supabase."
+            )
+        );
+        return;
+    }
+
+    mostrarReportes(data || []);
+}
+
+async function verificarSesion() {
+    if (
+        typeof supabaseClient === "undefined" ||
+        !supabaseClient.auth
+    ) {
+        console.error("Supabase no está disponible. Revisa supabase.js.");
+
+        listaReportes.replaceChildren(
+            crearElemento("p", "", "No se pudo conectar con Supabase.")
+        );
+        return;
+    }
+
+    const { data, error } = await supabaseClient.auth.getSession();
+
+    if (error) {
+        console.error("Error al comprobar la sesión:", error);
+        listaReportes.replaceChildren(
+            crearElemento("p", "", "No se pudo comprobar tu sesión.")
+        );
+        return;
+    }
+
+    if (!data.session) {
+        alert("Debes iniciar sesión para acceder a esta sección.");
+        window.location.href = "index.html";
+        return;
+    }
+
+    await cargarReportes();
+}
+
+verificarSesion();
+
+
+</script>
+
+</body>
+</html>

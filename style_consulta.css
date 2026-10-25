@@ -1,0 +1,322 @@
+@keyframes ani-body {
+    0% {
+        --s-start-0: 37%;
+        --s-end-0: 90%;
+        --y-0: 96%;
+        --x-0: 11%;
+        --c-0: hsla(181, 79%, 51%, 1);
+        --s-start-1: 31%;
+        --s-end-1: 84%;
+        --c-1: hsla(258, 100%, 64%, 1);
+        --y-1: 89%;
+        --x-1: 92%;
+        --s-start-2: 41%;
+        --s-end-2: 61%;
+        --x-2: 58%;
+        --y-2: 7%;
+        --c-2: hsla(202, 95%, 54%, 1);
+        --x-3: 62%;
+        --c-3: hsla(225, 76%, 52%, 1);
+        --y-3: 35%;
+        --s-start-3: 22%;
+        --s-end-3: 59%;
+        --x-4: 2%;
+        --s-start-4: 19%;
+        --s-end-4: 70%;
+        --y-4: 63%;
+        --c-4: hsla(218, 81%, 92%, 1);
+    }
+
+    100% {
+        --s-start-0: 29%;
+        --s-end-0: 73%;
+        --y-0: 12%;
+        --x-0: 6%;
+        --c-0: hsla(299, 78%, 76%, 1);
+        --s-start-1: 8%;
+        --s-end-1: 80%;
+        --c-1: hsla(221, 87%, 56%, 1);
+        --y-1: 6%;
+        --x-1: 61%;
+        --s-start-2: 29%;
+        --s-end-2: 80%;
+        --x-2: 75%;
+        --y-2: 23%;
+        --c-2: hsla(206, 51%, 96%, 1);
+        --x-3: 76%;
+        --c-3: hsla(204, 76%, 75%, 1);
+        --y-3: 64%;
+        --s-start-3: 2%;
+        --s-end-3: 81%;
+        --x-4: 41%;
+        --s-start-4: 24%;
+        --s-end-4: 81%;
+        --y-4: 86%;
+        --c-4: hsla(301, 89%, 98%, 1);
+    }
+}
+
+@property --s-start-0 {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 37%
+}
+
+@property --s-end-0 {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 90%
+}
+
+@property --y-0 {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 96%
+}
+
+@property --x-0 {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 11%
+}
+
+@property --c-0 {
+    syntax: '<color>';
+    inherits: false;
+    initial-value: hsla(181, 79%, 51%, 1)
+}
+
+@property --s-start-1 {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 31%
+}
+
+@property --s-end-1 {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 84%
+}
+
+@property --c-1 {
+    syntax: '<color>';
+    inherits: false;
+    initial-value: hsla(258, 100%, 64%, 1)
+}
+
+@property --y-1 {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 89%
+}
+
+@property --x-1 {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 92%
+}
+
+@property --s-start-2 {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 41%
+}
+
+@property --s-end-2 {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 61%
+}
+
+@property --x-2 {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 58%
+}
+
+@property --y-2 {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 7%
+}
+
+@property --c-2 {
+    syntax: '<color>';
+    inherits: false;
+    initial-value: hsla(202, 95%, 54%, 1)
+}
+
+@property --x-3 {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 62%
+}
+
+@property --c-3 {
+    syntax: '<color>';
+    inherits: false;
+    initial-value: hsla(225, 76%, 52%, 1)
+}
+
+@property --y-3 {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 35%
+}
+
+@property --s-start-3 {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 22%
+}
+
+@property --s-end-3 {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 59%
+}
+
+@property --x-4 {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 2%
+}
+
+@property --s-start-4 {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 19%
+}
+
+@property --s-end-4 {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 70%
+}
+
+@property --y-4 {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 63%
+}
+
+@property --c-4 {
+    syntax: '<color>';
+    inherits: false;
+    initial-value: hsla(218, 81%, 92%, 1)
+}
+
+body {
+    background: linear-gradient(135deg, #d1fae5 0%, #e0f2fe 100%);
+    min-height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+nav {
+    position: sticky;
+    z-index: 10;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    height: 64px;
+    padding: 12px 20px;
+    overflow-x: auto;
+    background-color: #173b72;
+    box-shadow: 0 3px 12px rgba(16, 45, 89, 0.18);
+}
+
+nav a {
+    display: flex;
+    flex: 0 0 120px;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    padding: 0 12px;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 8px;
+    color: #ffffff;
+    background-color: transparent;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: background-color 160ms ease;
+}
+
+nav a:hover,
+nav a:focus-visible {
+    background-color: #102d59;
+}
+
+@media (max-width: 700px) {
+    nav {
+        justify-content: flex-start;
+        gap: 6px;
+        height: 60px;
+        padding: 10px 8px;
+    }
+
+    nav a {
+        flex-basis: 100px;
+        height: 40px;
+        padding: 0 8px;
+        font-size: 0.8rem;
+    }
+}
+
+h1{
+     color: #000000;
+    font-size: 2em;
+    margin-bottom: 0.5em;
+    text-align: center;
+}
+p{
+    color:#000000;
+    font-size: 1.2em;
+    margin-bottom:auto;
+    text-align: center;
+}
+
+#contenedor-reportes {
+    display: grid;
+    gap: 16px;
+}
+
+.reporte-tarjeta {
+    padding: 20px;
+    border: 1px solid rgba(23, 59, 114, 0.12);
+    border-left: 5px solid #f4c430;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.96);
+    box-shadow: 0 8px 22px rgba(23, 59, 114, 0.09);
+}
+
+.reporte-tarjeta h3 {
+    margin: 0 0 12px;
+    color: #173b72;
+    font-size: 1.15rem;
+}
+
+.reporte-tarjeta p {
+    margin: 7px 0;
+    color: #43516a;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    text-align: left;
+    overflow-wrap: anywhere;
+}
+
+.reporte-tarjeta p:last-child {
+    color: #68758a;
+    font-size: 0.85rem;
+}

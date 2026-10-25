@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulta - Cali Conecta</title>
+    <link rel="stylesheet" href="style_consulta.css">
+</head>
+
+<body>
+    <nav>
+        <a href="home.html#inicio">inicio</a>
+        <a href="reportar.html">reportar</a>
+        <a href="consulta.html">consulta</a>
+        <a href="participa.html">participa</a>
+    </nav>
+
+    <main style="padding: 20px;">
+        <h1>Consulta</h1>
+        <p>Esta es la sección de consulta, en la cual podrás encontrar información sobre todos los problemas registrados en la ciudad.</p>
+        
+        <div id="contenedor-reportes" style="margin-top: 20px;">
+            <p>Cargando reportes...</p>
+        </div>
+    </main>
+
+   
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase.js"></script>
+
+    <script>
+        function formatearFechaColombia(valor) {
+            if (!valor) {
+                return 'Fecha no disponible';
+            }
+
+            const fechaConZona = typeof valor === 'string'
+                && !/(Z|[+-]\d{2}:?\d{2})$/i.test(valor)
+                ? `${valor.replace(' ', 'T')}Z`
+                : valor;
+            const fecha = new Date(fechaConZona);
+
+            if (Number.isNaN(fecha.getTime())) {
+                return 'Fecha inválida';
+            }
+
+            return fecha.toLocaleString('es-CO', {
+                timeZone: 'America/Bogota'
+            });
+        }
+
+        async function cargarReportes() {
+            const contenedor = document.getElementById('contenedor-reportes');
+
+           
+            const { data: reportes, error } = await supabaseClient
+                .from('reportes')
+                .select('*')
+                .order('id_reporte', { ascending: false });
+
+            if (error) {
+                console.error('Error al cargar reportes:', error);
+                contenedor.innerHTML = '<p style="color: red;">No se pudieron cargar los reportes.</p>';
+                return;
+            }
+
+            if (reportes.length === 0) {
+                contenedor.innerHTML = '<p>No hay reportes registrados todavía.</p>';
+                return;
+            }
+
+            
+            contenedor.innerHTML = '';
+            reportes.forEach(reporte => {
+                const tarjeta = document.createElement('div');
+                tarjeta.className = 'reporte-tarjeta';
+
+                tarjeta.innerHTML = `
+                    <h3>📍 ${reporte.ubicacion}</h3>
+                    <p><strong>Problema:</strong> ${reporte.problema}</p>
+                    <p><strong>Reportado por:</strong> ${reporte.nombre} (${reporte.correo})</p>
+                    <p><strong>Fecha:</strong> ${formatearFechaColombia(reporte.fecha_reporte)}</p>
+                `;
+                contenedor.appendChild(tarjeta);
+            });
+        }
+
+        cargarReportes();
+        
+
+    </script>
+</body>
+</html>

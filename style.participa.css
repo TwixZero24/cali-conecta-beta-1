@@ -1,0 +1,522 @@
+@keyframes ani-body {
+    0% {
+        --s-start-0: 37%;
+        --s-end-0: 90%;
+        --y-0: 96%;
+        --x-0: 11%;
+        --c-0: hsla(181, 79%, 51%, 1);
+        --s-start-1: 31%;
+        --s-end-1: 84%;
+        --c-1: hsla(258, 100%, 64%, 1);
+        --y-1: 89%;
+        --x-1: 92%;
+        --s-start-2: 41%;
+        --s-end-2: 61%;
+        --x-2: 58%;
+        --y-2: 7%;
+        --c-2: hsla(202, 95%, 54%, 1);
+        --x-3: 62%;
+        --c-3: hsla(225, 76%, 52%, 1);
+        --y-3: 35%;
+        --s-start-3: 22%;
+        --s-end-3: 59%;
+        --x-4: 2%;
+        --s-start-4: 19%;
+        --s-end-4: 70%;
+        --y-4: 63%;
+        --c-4: hsla(218, 81%, 92%, 1);
+    }
+
+    100% {
+        --s-start-0: 29%;
+        --s-end-0: 73%;
+        --y-0: 12%;
+        --x-0: 6%;
+        --c-0: hsla(299, 78%, 76%, 1);
+        --s-start-1: 8%;
+        --s-end-1: 80%;
+        --c-1: hsla(221, 87%, 56%, 1);
+        --y-1: 6%;
+        --x-1: 61%;
+        --s-start-2: 29%;
+        --s-end-2: 80%;
+        --x-2: 75%;
+        --y-2: 23%;
+        --c-2: hsla(206, 51%, 96%, 1);
+        --x-3: 76%;
+        --c-3: hsla(204, 76%, 75%, 1);
+        --y-3: 64%;
+        --s-start-3: 2%;
+        --s-end-3: 81%;
+        --x-4: 41%;
+        --s-start-4: 24%;
+        --s-end-4: 81%;
+        --y-4: 86%;
+        --c-4: hsla(301, 89%, 98%, 1);
+    }
+}
+
+@property --s-start-0 {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 37%
+}
+
+@property --s-end-0 {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 90%
+}
+
+@property --y-0 {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 96%
+}
+
+@property --x-0 {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 11%
+}
+
+@property --c-0 {
+    syntax: '<color>';
+    inherits: false;
+    initial-value: hsla(181, 79%, 51%, 1)
+}
+
+@property --s-start-1 {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 31%
+}
+
+@property --s-end-1 {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 84%
+}
+
+@property --c-1 {
+    syntax: '<color>';
+    inherits: false;
+    initial-value: hsla(258, 100%, 64%, 1)
+}
+
+@property --y-1 {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 89%
+}
+
+@property --x-1 {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 92%
+}
+
+@property --s-start-2 {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 41%
+}
+
+@property --s-end-2 {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 61%
+}
+
+@property --x-2 {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 58%
+}
+
+@property --y-2 {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 7%
+}
+
+@property --c-2 {
+    syntax: '<color>';
+    inherits: false;
+    initial-value: hsla(202, 95%, 54%, 1)
+}
+
+@property --x-3 {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 62%
+}
+
+@property --c-3 {
+    syntax: '<color>';
+    inherits: false;
+    initial-value: hsla(225, 76%, 52%, 1)
+}
+
+@property --y-3 {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 35%
+}
+
+@property --s-start-3 {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 22%
+}
+
+@property --s-end-3 {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 59%
+}
+
+@property --x-4 {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 2%
+}
+
+@property --s-start-4 {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 19%
+}
+
+@property --s-end-4 {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 70%
+}
+
+@property --y-4 {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 63%
+}
+
+@property --c-4 {
+    syntax: '<color>';
+    inherits: false;
+    initial-value: hsla(218, 81%, 92%, 1)
+}
+
+body {
+    background: linear-gradient(135deg, #d1fae5 0%, #e0f2fe 100%);
+    min-height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+nav {
+    position: sticky;
+    z-index: 10;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    height: 64px;
+    padding: 12px 20px;
+    overflow-x: auto;
+    background-color: #173b72;
+    box-shadow: 0 3px 12px rgba(16, 45, 89, 0.18);
+}
+
+nav a {
+    display: flex;
+    flex: 0 0 120px;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    padding: 0 12px;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 8px;
+    color: #ffffff;
+    background-color: transparent;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: background-color 160ms ease;
+}
+
+nav a:hover,
+nav a:focus-visible {
+    background-color: #102d59;
+}
+
+@media (max-width: 700px) {
+    nav {
+        justify-content: flex-start;
+        gap: 6px;
+        height: 60px;
+        padding: 10px 8px;
+    }
+
+    nav a {
+        flex-basis: 100px;
+        height: 40px;
+        padding: 0 8px;
+        font-size: 0.8rem;
+    }
+}
+
+h1{
+    text-align: center;
+    color: rgb(0, 0, 0);
+    font-size: 3rem;
+    margin-top: 2rem;
+}
+h2{ 
+    text-align: center;
+    color: white;
+    font-size: 2rem;
+    margin-top: 2rem;
+}
+p1{
+    text-align: center;
+    color: black;
+}
+
+.mapa-seccion {
+    width: min(100% - 32px, 1100px);
+    margin: 0 auto;
+    padding: 24px;
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid white;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(16, 27, 61, 0.2);
+}
+
+.mapa-seccion h2 {
+    margin: 0 0 12px;
+    color: #101B3D;
+}
+
+#estado-mapa {
+    margin: 0 0 12px;
+    color: #101B3D;
+    text-align: center;
+}
+
+.mapa {
+    width: 100%;
+    height: min(65vh, 650px);
+    min-height: 360px;
+    border: 2px solid #101B3D;
+    border-radius: 8px;
+    z-index: 0;
+}
+
+.leyenda-mapa {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px 22px;
+    margin: 0 0 14px;
+    color: #43516a;
+    font-size: 0.92rem;
+    font-weight: 600;
+}
+
+.leyenda-mapa span {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.punto-leyenda {
+    width: 12px;
+    height: 12px;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    box-shadow: 0 0 0 1px rgba(23, 59, 114, 0.25);
+}
+
+.punto-pendiente {
+    background: #ff9800;
+}
+
+.punto-resuelto {
+    background: #4caf50;
+}
+
+.atribucion-mapa {
+    margin: 8px 0 0;
+    color: #101B3D;
+    font-size: 0.85rem;
+    text-align: right;
+}
+
+.atribucion-mapa a {
+    color: #35105C;
+}
+
+@media (max-width: 520px) {
+    .mapa-seccion {
+        width: calc(100% - 24px);
+        padding: 16px;
+    }
+
+    .mapa {
+        height: 60vh;
+        min-height: 320px;
+    }
+}
+
+
+
+.filtros-reportes {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 16px;
+    margin-bottom: 24px;
+}
+
+.filtros-reportes label {
+    color: #101B3D;
+    font-weight: 700;
+}
+
+.filtros-reportes input,
+.filtros-reportes select {
+    width: 100%;
+    min-width: 0;
+    padding: 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #101B3D;
+    font: inherit;
+}
+
+.filtros-reportes input:focus,
+.filtros-reportes select:focus {
+    outline: 2px solid #38bdf8;
+    outline-offset: 2px;
+}
+
+
+#lista-reportes {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+}
+
+
+.reporte-card {
+    min-width: 0;
+    padding: 20px;
+    border: 1px solid #dbeafe;
+    border-radius: 12px;
+    background: #ffffff;
+    box-shadow: 0 5px 16px rgba(16, 27, 61, 0.09);
+    overflow-wrap: anywhere;
+}
+
+.reporte-cabecera {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 14px;
+}
+
+.reporte-categoria {
+    color: #173b72;
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.estado-reporte {
+    padding: 6px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.estado-reporte.pendiente {
+    background: #fff0d5;
+    color: #8a4b08;
+}
+
+.estado-reporte.en_revision {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.estado-reporte.resuelto {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.reporte-card h3 {
+    margin: 0 0 10px;
+    color: #101B3D;
+    font-size: 1.2rem;
+}
+
+.reporte-card p {
+    color: #43516a;
+    line-height: 1.6;
+}
+
+.reporte-fecha {
+    padding-top: 10px;
+    border-top: 1px solid #e2e8f0;
+    font-size: 0.85rem;
+}
+
+
+.historial-reporte {
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid #e2e8f0;
+}
+
+.historial-reporte summary {
+    color: #173b72;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.historial-evento {
+    margin-top: 14px;
+    padding-left: 12px;
+    border-left: 3px solid #38bdf8;
+}
+
+.historial-evento strong {
+    color: #101B3D;
+}
+
+.reporte-nota {
+    font-size: 0.85rem;
+}
+
+@media (max-width: 650px) {
+    .filtros-reportes {
+        grid-template-columns: 1fr;
+    }
+
+    #lista-reportes {
+        grid-template-columns: 1fr;
+    }
+
+    .reporte-card {
+        padding: 16px;
+    }
+}
+
